@@ -23,8 +23,9 @@ echo [INFO] Starting Thymeleaf Debugger on http://localhost:%PORT%
 echo [INFO] Press Ctrl+C to stop
 echo.
 
-:: Open browser after a short delay
-start "" cmd /c "ping -n 5 127.0.0.1 >nul && start http://localhost:%PORT%"
+:: Open browser when server is ready (poll port in background)
+start "" /min powershell -WindowStyle Hidden -Command "while ($true) { Start-Sleep -Seconds 2; try { $c = New-Object Net.Sockets.TcpClient('127.0.0.1', %PORT%); $c.Close(); Start-Process 'http://localhost:%PORT%'; break } catch {} }"
+
 
 call mvn spring-boot:run -Dspring-boot.run.arguments="--server.port=%PORT%"
 
