@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thymeleaf Template Debugger</title>
+    <link rel="stylesheet" href="app.css">
+    
+    <script type="importmap">
+    {
+        "imports": {
+            "@codemirror/view": "https://esm.sh/@codemirror/view@6.24.1",
+            "@codemirror/state": "https://esm.sh/@codemirror/state@6.4.1",
+            "@codemirror/language": "https://esm.sh/@codemirror/language@6.10.1",
+            "@codemirror/commands": "https://esm.sh/@codemirror/commands@6.3.3",
+            "@codemirror/search": "https://esm.sh/@codemirror/search@6.5.6",
+            "@codemirror/autocomplete": "https://esm.sh/@codemirror/autocomplete@6.12.0",
+            "@codemirror/lint": "https://esm.sh/@codemirror/lint@6.5.0",
+            "@codemirror/lang-html": "https://esm.sh/@codemirror/lang-html@6.4.8",
+            "@codemirror/lang-json": "https://esm.sh/@codemirror/lang-json@6.0.1",
+            "@codemirror/theme-one-dark": "https://esm.sh/@codemirror/theme-one-dark@6.1.2",
+            "codemirror": "https://esm.sh/codemirror@6.0.1",
+            "js-beautify": "https://esm.sh/js-beautify@1.15.1"
+        }
+    }
+    </script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Toolbar -->
+        <header class="toolbar">
+            <div class="brand">
+                <span class="icon">🍃</span>
+                <h1>Thymeleaf Debugger</h1>
+            </div>
+            <div class="actions">
+                <div class="view-toggle">
+                    <button id="btn-view-preview" class="toggle-btn active" title="HTML Preview">HTML预览</button>
+                    <button id="btn-view-source" class="toggle-btn" title="Source Code">源码</button>
+                </div>
+                <button id="btn-clear" class="btn secondary">清除 (Clear)</button>
+                <button id="btn-render" class="btn primary">
+                    <span class="btn-icon">▶</span> 渲染 (Render) <span class="shortcut">Ctrl+Enter</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <div class="workspace">
+            <!-- Top Section: Editors -->
+            <div class="editors-container">
+                <!-- Template Editor -->
+                <div class="panel editor-panel" id="panel-template">
+                    <div class="panel-header">
+                        <span class="panel-title">模板 (Template)</span>
+                        <div class="panel-header-actions">
+                            <button id="btn-format-html" class="btn-tool" title="格式化 HTML (Shift+Alt+F)">⎈ Format</button>
+                            <span class="lang-badge">HTML</span>
+                        </div>
+                    </div>
+                    <div id="editor-template" class="editor-instance"></div>
+                </div>
+
+                <!-- Resizer Handle (Vertical) -->
+                <div class="resizer-vertical"></div>
+
+                <!-- JSON Editor -->
+                <div class="panel editor-panel" id="panel-data">
+                    <div class="panel-header">
+                        <span class="panel-title">数据 (Data Model)</span>
+                        <div class="panel-header-actions">
+                            <button id="btn-format-json" class="btn-tool" title="格式化 JSON (Shift+Alt+F)">⎈ Format</button>
+                            <span class="lang-badge">JSON</span>
+                        </div>
+                    </div>
+                    <div id="editor-json" class="editor-instance"></div>
+                </div>
+            </div>
+
+            <!-- Resizer Handle (Horizontal) -->
+            <div class="resizer-horizontal"></div>
+
+            <!-- Bottom Section: Output -->
+            <div class="panel output-panel" id="panel-output">
+                <div class="panel-header">
+                    <span class="panel-title">输出 (Output)</span>
+                    <div class="output-status" id="output-status">Ready</div>
+                </div>
+                <div class="output-content">
+                    <div id="output-preview" class="output-view active">
+                        <iframe id="preview-frame" sandbox="allow-same-origin"></iframe>
+                        <div class="placeholder-text">Click "Render" to see the result</div>
+                    </div>
+                    <div id="output-source" class="output-view">
+                        <pre><code id="source-code"></code></pre>
+                    </div>
+                    <div id="output-errors" class="output-view error-list"></div>
+                    <div id="loading-overlay" class="loading-overlay hidden">
+                        <div class="spinner"></div>
+                        <span>Rendering...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="app.js"></script>
+</body>
+</html>
