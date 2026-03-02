@@ -288,7 +288,11 @@ async function renderTemplate() {
             // Success Case
             outputStatus.textContent = 'Success';
             outputStatus.style.color = '#50fa7b'; // Green
-            
+
+            // Hide placeholder text
+            const placeholder = document.querySelector('.placeholder-text');
+            if (placeholder) placeholder.style.display = 'none';
+
             // Update Preview
             const blob = new Blob([result.output], { type: 'text/html' });
             previewFrame.src = URL.createObjectURL(blob);
@@ -433,6 +437,8 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('source-code').textContent = '';
         document.getElementById('output-status').textContent = 'Ready';
         document.getElementById('output-status').style.color = 'inherit';
+        const placeholder = document.querySelector('.placeholder-text');
+        if (placeholder) placeholder.style.display = '';
     });
 
     // View Toggles
